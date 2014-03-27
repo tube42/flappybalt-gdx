@@ -5,14 +5,16 @@ WHAT???
 -------
 Java + libGDX version of FlappyBalt by Adam Atomics.
 
-(the orriginal game was written in AS3 + Flixel and can be downloaded from https://github.com/AdamAtomic/flixel/ )
+The original game was written in AS3 + Flixel:
+    Source: https://github.com/AdamAtomic/Flappybalt
+    Game http://adamatomic.com/flappybalt/
 
 
 WHY??
 ----
 Because
  1. the voices in my head told me to do it
- 2. needed to compare flixel to barebone libgdx
+ 2. needed some code for comparing flixel to barebone libgdx
  
 HOW??
 -----
