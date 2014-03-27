@@ -1,0 +1,6 @@
+libs
+build
+*~
+*.svg
+*.zip
+*.jar

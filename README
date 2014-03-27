@@ -1,0 +1,21 @@
+flappybalt-GDX
+==============
+
+WHAT???
+-------
+Java + libGDX version of FlappyBalt by Adam Atomics.
+
+(the orriginal game was written in AS3 + Flixel and can be downloaded from https://github.com/AdamAtomic/flixel/ )
+
+
+WHY??
+----
+Because
+ 1. the voices in my head told me to do it
+ 2. needed to compare flixel to barebone libgdx
+ 
+HOW??
+-----
+ant setup
+ant run
+
