@@ -1,6 +1,9 @@
 flappybalt-GDX
 ==============
 
+.. image:: http://tube42.github.io/flappybalt/img/flappy.png
+
+
 WHAT???
 -------
 Java + libGDX version of FlappyBalt by Adam Atomics.
