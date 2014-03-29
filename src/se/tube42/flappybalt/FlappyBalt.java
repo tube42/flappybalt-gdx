@@ -8,105 +8,157 @@ import com.badlogic.gdx.Input.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
-
 import se.tube42.flappybalt.lib.*;
 
 public class FlappyBalt extends AppBase
-{     
+{   
     public Player player;
-    public SpriteItem bg;
+    public SpriteItem bg, flash;
     public SpriteItem bounceLeft, bounceRight;
-	public Paddle paddleLeft, paddleRight;		
-	public TextItem scoreDisplay;
-	public int score;
-
-	
+    public Paddle paddleLeft, paddleRight;		
+    public TextItem scoreDisplay, highscoreDisplay;
+    public int score;
 
     @Override
-    public void create()
+          public void create()
     {
     	super.create();
 
-		TextureRegion [] trbg = Utils.load("background.png", 1);
-		TextureRegion [] trp = Utils.load("paddle.png", 1);
+        TextureRegion [] trbg = Utils.load("background.png", 1);
+        TextureRegion [] trp = Utils.load("paddle.png", 1);
         TextureRegion [] trb = Utils.load("bounce.png", 2);
         TextureRegion [] trdove = Utils.load("dove.png", 3);
-
         BitmapFont font26 = Utils.loadFont("fonts/nokia26");
         BitmapFont font16 = Utils.loadFont("fonts/nokia16");
         
         add( bg = new SpriteItem(0, 0, trbg) );
-
         
-        add(scoreDisplay = new TextItem(0, 0, font26, 26));
-		scoreDisplay.setAlignment(0.5f, 0.3f, -0.5f, 0.5f); // +0.5f, +0.5f);
-		scoreDisplay.color = 0x4d4d59FF;
-		scoreDisplay.setText("");
+        add(scoreDisplay = new TextItem(0, 0, font26));
+        scoreDisplay.setAlignment(0.5f, 0.35f, -0.5f, 0.5f); // +0.5f, +0.5f);
+        scoreDisplay.color = 0x4d4d59FF;
+        
+        add(highscoreDisplay = new TextItem(0, -16, font16));
+        highscoreDisplay.setAlignment(0.5f, 1f, -0.5f, -0.5f); // +0.5f, +0.5f);
+        highscoreDisplay.color = 0xFFFFFFFF;
+        
+        add( bounceLeft = new SpriteItem(1, 17, trb));
+        add( bounceRight = new SpriteItem(-5,17, trb) );
+        bounceRight.setAlignment(1, 0);
+        bounceRight.flip_x = true;
+        
+        bounceRight.anim = new SpriteAnimation(new int []{ 0, 1}, 8, false);
+        bounceLeft.anim = new SpriteAnimation(new int []{ 0, 1}, 8, false);
+        
+        add( paddleLeft = new Paddle(6, true, trp) );
+        add( paddleRight = new Paddle(-15, false, trp) );
+        paddleRight.setAlignment(1, 0);
+        paddleRight.flip_x = true;
+        
+        add(player = new Player(50, 50, trdove));  
 
-		add( bounceLeft = new SpriteItem(1, 17, trb));
-		add( bounceRight = new SpriteItem(-5,17, trb) );
-		bounceRight.setAlignment(1, 0);
-		bounceRight.flip_x = true;
+        add( flash = new SpriteItem(0, 0, Utils.load("rect.png", 1)));
 
-		bounceRight.anim = new SpriteAnimation(new int []{ 0, 1}, 8, false);
-		bounceLeft.anim = new SpriteAnimation(new int []{ 0, 1}, 8, false);
-
-		// bounceLeft.addAnimation("flash",[1,0],8,false);
-		// bounceRight.addAnimation("flash",[1,0],8,false);
-		
-		add( paddleLeft = new Paddle(6, true, trp) );
-		add( paddleRight = new Paddle(-15, false, trp) );
-		paddleRight.setAlignment(1, 0);
-		paddleRight.flip_x = true;
-		
-
-		add(player = new Player(100, 100, trdove));
-
-        // TweenManager.allowEmptyTweens(true);
+        reset();      
     }
 
-	public void reset()
-	{
-		super.reset();
-		score = 0;
-	} 
-    public void update(float dt)
+    public void onResize(int w, int h, int a, int b)
     {
-    	super.update(dt);
+        super.onResize(w, h, a, b);
+        flash.w = w;
+        flash.h = h;
+    }
+
     
+    public void reset()
+    {
+        super.reset();
+
+        int best_score = loadScore();
+        score = 0;
+        
+        highscoreDisplay.setText(best_score < 1 ? "" : "" + best_score);
+        scoreDisplay.setText("");
+
+        flash.alpha = 0;
+    }
+
+    public void onUpdate(float dt)
+    {
+    	super.onUpdate(dt);
+        
+        // flash after dead:
+        if(flash.alpha > 0) {
+            flash.alpha -= dt * 0.8f;
+
+            if(flash.alpha > 0.5f) {
+                camera.zoom = 0.98f + Utils.rnd.nextFloat() / 50;
+                camera.update();
+            }
+            if(flash.alpha <= 0) {
+                camera.zoom = 1;
+                camera.update();
+
+                reset();
+            }
+            return;
+        }
+
     	float edges = 14;
+        
+        if((player.y < edges) || (player.y + player.h > sh-edges) || player.overlaps(paddleLeft) || player.overlaps(paddleRight)) {          
+            saveScore(score);
+            flash.alpha = 1f;
+        } else if(player.x < 5) {
+            player.x = 5;
+            player.velocity_x = -player.velocity_x;
+            player.flip_x = false;
+            score++;
+            scoreDisplay.setText("" + score);
+            bounceLeft.anim.start();
+            paddleRight.randomize();
+        } else if(player.x + player.w > sw - 5) {
+            
+            player.x = sw - player.w - 5;
+            player.velocity_x = -player.velocity_x;
+            player.flip_x = true;
+            score++;
+            scoreDisplay.setText("" + score);
+            bounceRight.anim.start();
+            paddleLeft.randomize();
+        }
+    }
+    
+    
+    public boolean type(int key, boolean down)
+    {
+        if(down && key == Keys.SPACE) {
+            player.flap();
+        }
+        return true;
+    }
+    
+    // -----------------------------------------------
 
-		if((player.y < edges) || (player.y + player.h > sh-edges) || player.overlaps(paddleLeft) || player.overlaps(paddleRight)) {
-			player.kill();
-			reset();
-		} else if(player.x < 5) {
-			player.x = 5;
-			player.velocity_x = -player.velocity_x;
-			player.flip_x = false;
-			score++;
-			scoreDisplay.setText("" + score);
-			bounceLeft.anim.start();
-			paddleRight.randomize();
-		} else if(player.x + player.w > sw - 5) {
-			
-			player.x = sw - player.w - 5;
-			player.velocity_x = -player.velocity_x;
-			player.flip_x = true;
-			score++;
-			scoreDisplay.setText("" + score);
-			bounceRight.anim.start();
-			paddleLeft.randomize();
-		}
-	}
+    private static Preferences prefs = null;
 
+    private static Preferences getPrefs()
+    {
+        if(prefs == null)
+            prefs = Gdx.app.getPreferences("flappybalt-1");
+        return prefs;
+    }
 
-	public boolean type(int key, boolean down)
-	{
-		if(down && key == Keys.SPACE) {
-			player.flap();
-		}
-		return true;
-	}
+    public static int loadScore()
+    {
+        return getPrefs().getInteger("score", 0);
+    }
 
-	
+    public static void saveScore(int score)
+    {
+        int old = loadScore();
+        if(score > old ) {
+            getPrefs().putInteger("score", score);
+            getPrefs().flush();
+        }
+    }    
 }

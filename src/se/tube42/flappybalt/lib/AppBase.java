@@ -11,81 +11,92 @@ import se.tube42.flappybalt.lib.*;
 
 public class AppBase implements ApplicationListener, InputProcessor
 {     
-	protected SpriteBatch batch;
+    protected SpriteBatch batch;
     protected OrthographicCamera camera;    
     protected List<BaseItem> items;
     private Vector3 touch_tmp = new Vector3();
-
-    public static int sw, sh;
-	
+    
+    public static int sw = 200, sh = 200;
+    
     public void add(BaseItem item)
     {
     	items.add(item);
     }
-
+    
     public void reset()
     {
-		for(BaseItem s : items) s.reset();
+        for(BaseItem s : items) s.reset();
     }
-
+    
     // ----------------------------------------------------
-
+    
     @Override
-    public void create()
+          public void create()
     {
         this.batch = new SpriteBatch();        
         this.camera = new OrthographicCamera();                        
         this.items = new ArrayList<BaseItem>();
         Gdx.input.setInputProcessor(this);
     }
- 
-    @Override public void resize(int sw, int sh) 
-    {                 
+    
+    @Override final public void resize(int sw, int sh) 
+    {   
     	this.sw = 480 / 3;
     	this.sh = 720 / 3;
-        camera.setToOrtho(false, this.sw, this.sh);
-        camera.update();        
+        onResize(this.sw, this.sh, sw, sh);
     }
-        
+    
     @Override
-    public void render()
+          public void render()
     {                
         // camera
         batch.setProjectionMatrix(camera.combined);                
         
         // update
         float dt = Math.min(0.2f, Gdx.graphics.getDeltaTime() );        
-        update(dt);       
-                
+        onUpdate(dt);
+        
         // clean bg
         Gdx.gl.glClearColor( 0, 0, 0, 1f );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
         
         // draw scene
         batch.begin();  
-		for(BaseItem s : items) s.draw(batch);      
+        onDraw(batch);
         batch.end();                   
     }
-        
-    public void update(float dt)
+    
+    public void onUpdate(float dt)
     {
     	for(BaseItem s : items) s.update(dt);
     }
-    
+
+    public void onDraw(SpriteBatch sb)
+    {
+        for(BaseItem s : items) s.draw(sb);      
+    }
+
+    public void onResize(int sw, int sh, int rw, int rh)
+    {
+        camera.setToOrtho(false, sw, sh);
+        camera.update();        
+    }
+
+
     // --------------------------------------------------
     
     @Override
-    public void pause() { }
+          public void pause() { }
     @Override
-    public void resume() { }
+          public void resume() { }
     @Override
-    public void dispose() { }
+          public void dispose() { }
     
     
     
-	// ---------------------------------------
-
-  	public boolean mouseMoved(int screenX, int screenY) { return false; }    
+    // ---------------------------------------
+    
+    public boolean mouseMoved(int screenX, int screenY) { return false; }    
     public boolean scrolled(int amount) { return false; }
     public boolean keyTyped(char character) { return false; }
     
@@ -96,7 +107,7 @@ public class AppBase implements ApplicationListener, InputProcessor
     public boolean keyUp(int keycode) { 
         return type(keycode, false);
     }
-        
+    
     public boolean touchUp(int x, int y, int pointer, int button) 
     { 
         return touch_(x, y, false, false);        
@@ -122,13 +133,13 @@ public class AppBase implements ApplicationListener, InputProcessor
         
         return touch(x, y, down, drag);
     }
-
-	public boolean type(int key, boolean down)
-	{
-		return false;
-	}
-	public boolean touch(int x, int y, boolean down, boolean drag)
-	{
-		return false;
-	}
+    
+    public boolean type(int key, boolean down)
+    {
+        return false;
+    }
+    public boolean touch(int x, int y, boolean down, boolean drag)
+    {
+        return false;
+    }
 }

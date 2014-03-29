@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.*;
 
 public interface BaseItem
 {
-	public void update(float dt);
-	public void draw(SpriteBatch sb);  
-
-	public void reset(); 
+    public void update(float dt);
+    public void draw(SpriteBatch sb);  
+    
+    public void reset(); 
 }
