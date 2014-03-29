@@ -12,6 +12,7 @@ Java + libGDX version of FlappyBalt by Adam Atomics. The original game was writt
 WHY??
 ----
 Because
+
 1. the voices in my head told me to do it
 2. needed some code for comparing flixel to barebone libgdx (i.e. not even scene2d or the tween libs)
 
@@ -20,6 +21,7 @@ On a more serious note, if you are thinking about porting your flixel project to
 HOW??
 -----
 The secret recipe for awesomeness is
+
 1. ant setup
 2. ant run
 3. flap!
