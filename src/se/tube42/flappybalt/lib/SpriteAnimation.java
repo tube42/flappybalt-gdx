@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
-import se.tube42.flappybalt.lib.*;
-
 public class SpriteAnimation
 {
     private int []keys;

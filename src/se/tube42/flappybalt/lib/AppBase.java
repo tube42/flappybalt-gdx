@@ -7,17 +7,16 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
-import se.tube42.flappybalt.lib.*;
-
 public class AppBase implements ApplicationListener, InputProcessor
 {     
+    public static int sw, sh, mw, mh;
+
     protected SpriteBatch batch;
     protected OrthographicCamera camera;    
     protected List<BaseItem> items;
     private Vector3 touch_tmp = new Vector3();
-    
-    public static int sw = 200, sh = 200;
-    
+    protected float speed;
+
     public void add(BaseItem item)
     {
     	items.add(item);
@@ -25,6 +24,7 @@ public class AppBase implements ApplicationListener, InputProcessor
     
     public void reset()
     {
+        speed = 1;
         for(BaseItem s : items) s.reset();
     }
     
@@ -37,10 +37,14 @@ public class AppBase implements ApplicationListener, InputProcessor
         this.camera = new OrthographicCamera();                        
         this.items = new ArrayList<BaseItem>();
         Gdx.input.setInputProcessor(this);
+
+        // this will make sure sw/sh are correct from the start
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+
     }
     
     @Override final public void resize(int sw, int sh) 
-    {   
+    {      
     	this.sw = 480 / 3;
     	this.sh = 720 / 3;
         onResize(this.sw, this.sh, sw, sh);
@@ -53,11 +57,11 @@ public class AppBase implements ApplicationListener, InputProcessor
         batch.setProjectionMatrix(camera.combined);                
         
         // update
-        float dt = Math.min(0.2f, Gdx.graphics.getDeltaTime() );        
+        float dt = Math.min(0.2f, Gdx.graphics.getDeltaTime()) * speed;        
         onUpdate(dt);
         
         // clean bg
-        Gdx.gl.glClearColor( 0, 0, 0, 1f );
+        Gdx.gl.glClearColor( 176/255f, 175/255f, 191/256f, 1f );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
         
         // draw scene
@@ -78,7 +82,14 @@ public class AppBase implements ApplicationListener, InputProcessor
 
     public void onResize(int sw, int sh, int rw, int rh)
     {
-        camera.setToOrtho(false, sw, sh);
+        int scale = Math.max(1, Math.min( rw / sw, rh / sh));
+        
+        mw = (rw / scale - sw) / 2;
+        mh = (rh / scale - sh) / 2;        
+        // System.out.println("scale=" + "mw=" + mw + " mh=" + mh);
+
+        camera.setToOrtho(false, sw + 2 * mw, sh + 2 * mh);
+        camera.translate(-mw, -mh);
         camera.update();        
     }
 

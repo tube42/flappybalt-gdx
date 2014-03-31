@@ -6,7 +6,7 @@ flappybalt-GDX
 
 WHAT???
 -------
-Java + libGDX version of FlappyBalt by Adam Atomics. The original game was written in AS3 + Flixel (`Source: <https://github.com/AdamAtomic/Flappybalt>`_, `Game <http://adamatomic.com/flappybalt/>`_).
+Java + libGDX version of FlappyBalt by Adam Atomics. The original game was written in AS3 + Flixel (`Source <https://github.com/AdamAtomic/Flappybalt>`_, `Game <http://adamatomic.com/flappybalt/>`_).
 
 
 WHY??

@@ -29,7 +29,7 @@ public class FlappyBalt extends AppBase
         TextureRegion [] trb = Utils.load("bounce.png", 2);
         TextureRegion [] trdove = Utils.load("dove.png", 3);
         BitmapFont font26 = Utils.loadFont("fonts/nokia26");
-        BitmapFont font16 = Utils.loadFont("fonts/nokia16");
+        BitmapFont font12 = Utils.loadFont("fonts/nokia12");
         
         add( bg = new SpriteItem(0, 0, trbg) );
         
@@ -37,7 +37,7 @@ public class FlappyBalt extends AppBase
         scoreDisplay.setAlignment(0.5f, 0.35f, -0.5f, 0.5f); // +0.5f, +0.5f);
         scoreDisplay.color = 0x4d4d59FF;
         
-        add(highscoreDisplay = new TextItem(0, -16, font16));
+        add(highscoreDisplay = new TextItem(0, -16, font12));
         highscoreDisplay.setAlignment(0.5f, 1f, -0.5f, -0.5f); // +0.5f, +0.5f);
         highscoreDisplay.color = 0xFFFFFFFF;
         
@@ -64,8 +64,11 @@ public class FlappyBalt extends AppBase
     public void onResize(int w, int h, int a, int b)
     {
         super.onResize(w, h, a, b);
-        flash.w = w;
-        flash.h = h;
+
+        if(flash != null) {
+            flash.w = w;
+            flash.h = h;
+        }
     }
 
     
@@ -86,6 +89,9 @@ public class FlappyBalt extends AppBase
     {
     	super.onUpdate(dt);
         
+        // slow down effect when dead
+        speed = 1 / (1 * flash.alpha + 1);
+
         // flash after dead:
         if(flash.alpha > 0) {
             flash.alpha -= dt * 0.8f;
@@ -108,6 +114,8 @@ public class FlappyBalt extends AppBase
         if((player.y < edges) || (player.y + player.h > sh-edges) || player.overlaps(paddleLeft) || player.overlaps(paddleRight)) {          
             saveScore(score);
             flash.alpha = 1f;
+            player.velocity_x = 0;
+            player.velocity_y = 0;
         } else if(player.x < 5) {
             player.x = 5;
             player.velocity_x = -player.velocity_x;

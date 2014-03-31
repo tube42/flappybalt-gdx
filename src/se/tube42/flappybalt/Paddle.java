@@ -1,7 +1,6 @@
 package se.tube42.flappybalt;
 
 import com.badlogic.gdx.*;
-// import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
@@ -26,7 +25,7 @@ public class Paddle extends SpriteItem
     {
     	super.reset();
         
-    	y = -h;
+    	y = -h - AppBase.mh;
     }
     
     public void randomize()

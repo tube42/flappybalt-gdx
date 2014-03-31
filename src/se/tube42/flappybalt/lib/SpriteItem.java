@@ -1,12 +1,9 @@
 package se.tube42.flappybalt.lib;
 
 import com.badlogic.gdx.*;
-// import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
-// import se.tube42.lib.tweeny.*;
-// import se.tube42.lib.ks.*;
 
 public class SpriteItem implements BaseItem
 {     

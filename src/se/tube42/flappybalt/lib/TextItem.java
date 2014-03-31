@@ -1,12 +1,8 @@
 package se.tube42.flappybalt.lib;
 
 import com.badlogic.gdx.*;
-// import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
-
-// import se.tube42.lib.tweeny.*;
-// import se.tube42.lib.ks.*;
 
 public class TextItem implements BaseItem
 {     
@@ -24,7 +20,7 @@ public class TextItem implements BaseItem
         this.font = font;
         this.x = x;
         this.y = y;
-        this.color = 0xFF0000;
+        this.color = 0xFF0000FF;
         setText("");
     }
     
@@ -65,7 +61,8 @@ public class TextItem implements BaseItem
         final float x0 = getX();
         final float y0 = getY();
         
-        font.setColor( (color >> 24) / 255f,
+        font.setColor( 
+                (color >>> 24) / 255f,
                   ((color >> 16) & 0xFF) / 255f,
                   ((color >>  8) & 0xFF) / 255f,
                   (color & 0xFF) / 255f);

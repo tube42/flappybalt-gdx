@@ -2,7 +2,6 @@ package se.tube42.flappybalt.lib;
 
 import java.util.*;
 
-
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -27,10 +26,11 @@ public class Utils
     
     public static BitmapFont loadFont(String name)
     {
-        return new BitmapFont(
-                  Gdx.files.internal(name + ".fnt"),
-                  Gdx.files.internal(name + ".png"), 
-                  false, true);
+        BitmapFont ret = new BitmapFont( Gdx.files.internal(name + ".fnt"),
+            Gdx.files.internal(name + ".png"), false, true);
+
+        ret.setUseIntegerPositions(true);
+        return ret;
     }
     
 }

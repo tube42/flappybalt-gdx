@@ -13,5 +13,4 @@ public class DesktopMain
         FlappyBalt app = new FlappyBalt();
         new LwjglApplication( app, "Flappy Balt", 480, 720, true);
     }
-    
 }
