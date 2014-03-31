@@ -114,8 +114,7 @@ public class FlappyBalt extends AppBase
         if((player.y < edges) || (player.y + player.h > sh-edges) || player.overlaps(paddleLeft) || player.overlaps(paddleRight)) {          
             saveScore(score);
             flash.alpha = 1f;
-            player.velocity_x = 0;
-            player.velocity_y = 0;
+            player.kill();
         } else if(player.x < 5) {
             player.x = 5;
             player.velocity_x = -player.velocity_x;
@@ -140,7 +139,8 @@ public class FlappyBalt extends AppBase
     public boolean type(int key, boolean down)
     {
         if(down && key == Keys.SPACE) {
-            player.flap();
+            if(!player.dead)
+                player.flap();
         }
         return true;
     }

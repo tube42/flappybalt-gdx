@@ -18,7 +18,7 @@ public class Utils
         final int tw = tex.getWidth() / count;
         final int th = tex.getHeight();
         
-        tex.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);      
+        tex.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         for(int a = 0; a < count; a++) 
             ret[a] = new TextureRegion(tex, a * tw, 0, tw, th);
         return ret;

@@ -9,7 +9,8 @@ import se.tube42.flappybalt.lib.*;
 public class Player extends SpriteItem
 {
     
-    
+    public boolean dead;
+
     public Player(int x, int y, TextureRegion [] tex)
     {
         super(x, y, tex);
@@ -35,8 +36,16 @@ public class Player extends SpriteItem
         super.reset();
         index = 2;
         flip_x = false;
+        dead = false;
         x = AppBase.sw / 2;
         y = AppBase.sh / 2;
+    }
+
+    public void kill()
+    {
+        velocity_x = 0;
+        velocity_y = 0;
+        dead = true;
     }
     
     

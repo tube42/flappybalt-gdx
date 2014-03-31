@@ -40,7 +40,6 @@ public class AppBase implements ApplicationListener, InputProcessor
 
         // this will make sure sw/sh are correct from the start
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-
     }
     
     @Override final public void resize(int sw, int sh) 
@@ -88,8 +87,11 @@ public class AppBase implements ApplicationListener, InputProcessor
         mh = (rh / scale - sh) / 2;        
         // System.out.println("scale=" + "mw=" + mw + " mh=" + mh);
 
-        camera.setToOrtho(false, sw + 2 * mw, sh + 2 * mh);
-        camera.translate(-mw, -mh);
+
+
+        Gdx.gl.glViewport( mw * scale, mh * scale, rw - 2 * mw * scale , rh - 2 * mh * scale);           
+        camera.setToOrtho(false, sw, sh);
+
         camera.update();        
     }
 

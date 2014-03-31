@@ -25,7 +25,7 @@ public class Paddle extends SpriteItem
     {
     	super.reset();
         
-    	y = -h - AppBase.mh;
+    	y = -h;
     }
     
     public void randomize()
