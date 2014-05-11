@@ -114,10 +114,12 @@ public class AppBase implements ApplicationListener, InputProcessor
     public boolean keyTyped(char character) { return false; }
     
     
-    public boolean keyDown(int keycode) { 
+    public boolean keyDown(int keycode) 
+    { 
         return type(keycode, true);
     }
-    public boolean keyUp(int keycode) { 
+    public boolean keyUp(int keycode) 
+    { 
         return type(keycode, false);
     }
     

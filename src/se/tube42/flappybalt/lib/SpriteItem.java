@@ -55,15 +55,13 @@ public class SpriteItem implements BaseItem
     }
     
     public void update(float dt)
-    {
-        
+    {        
         if(anim != null) {
             if(!anim.isStopped() ) {
                 anim.update(dt);
                 index = anim.getIndex();
             }
-        }
-        
+        }        
         
         // motion:
         velocity_x = Math.max( -MAX_VELOCITY, Math.min( +MAX_VELOCITY, velocity_x + (acceleration_x ) * dt));
@@ -71,21 +69,6 @@ public class SpriteItem implements BaseItem
         
         x += velocity_x * dt;
         y += velocity_y * dt;
-    }
-    
-    
-    public static float computeVelocity(float dt, float Velocity, float Acceleration, float Drag, float Max)
-    {
-        if(Acceleration != 0)
-            Velocity += Acceleration * dt;
-        if((Velocity != 0) && (Max != 10000))
-        {
-            if(Velocity > Max)
-                Velocity = Max;
-            else if(Velocity < -Max)
-                Velocity = -Max;
-        }
-        return Velocity;
     }
     
     public void draw(SpriteBatch sb)
@@ -108,8 +91,7 @@ public class SpriteItem implements BaseItem
         final float ax2 = ax1 + w;
         final float bx1 = si.getX();
         final float bx2 = bx1 + si.w;
-        
-        
+                
         // Y
         final float ay1 = getY();
         final float ay2 = ay1 + h;

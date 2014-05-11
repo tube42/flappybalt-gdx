@@ -41,7 +41,7 @@ public class TextItem implements BaseItem
         this.text = text;
         update_bounds();
     }
-
+    
     public String getText()
     {
         return text;
@@ -49,11 +49,11 @@ public class TextItem implements BaseItem
     
     public void update(float dt) { }
     
-
+    
     public float getX() { return x + AppBase.sw * sx + w * tx; }
-
+    
     public float getY() { return y + AppBase.sh * sy + h * ty; }
-
+    
     public void draw(SpriteBatch sb) 
     { 
         update_bounds();
@@ -62,7 +62,7 @@ public class TextItem implements BaseItem
         final float y0 = getY();
         
         font.setColor( 
-                (color >>> 24) / 255f,
+                  (color >>> 24) / 255f,
                   ((color >> 16) & 0xFF) / 255f,
                   ((color >>  8) & 0xFF) / 255f,
                   (color & 0xFF) / 255f);
