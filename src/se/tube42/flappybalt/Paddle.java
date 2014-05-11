@@ -11,8 +11,7 @@ public class Paddle extends SpriteItem
 {   
     private static final int SPEED = 480;  
     
-    private boolean left;
-    
+    private boolean left;    
     private float target_y = 0;
     
     public Paddle(int x, boolean left, TextureRegion [] tr)
@@ -23,18 +22,14 @@ public class Paddle extends SpriteItem
     
     public void reset()
     {
-    	super.reset();
-        
-    	y = -h;
+    	super.reset();        
+    	this.y = -h;
     }
     
     public void randomize()
     {
         target_y = 16 + Utils.rnd.nextFloat() * (208 - h);
-        if(target_y < y)
-            velocity_y = -SPEED;
-        else
-            velocity_y = SPEED;    	
+        velocity_y = (target_y < y) ? -SPEED : SPEED;
     }
     
     public void update(float dt)
@@ -42,8 +37,7 @@ public class Paddle extends SpriteItem
     	super.update(dt);
         
     	if( ((velocity_y < 0) && (y <= target_y)) ||
-            ((velocity_y > 0) && (y >= target_y)) )
-        {
+            ((velocity_y > 0) && (y >= target_y)) ) {
             velocity_y = 0;
             y = target_y;
         }

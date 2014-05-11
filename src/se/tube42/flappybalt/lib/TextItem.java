@@ -10,11 +10,10 @@ public class TextItem implements BaseItem
     private float sx, sy, tx, ty;
     private float w, h;
     private String text;
-    
+
     public int color;
     public int x, y;
-    
-    
+
     public TextItem(int x, int y, BitmapFont font)
     {
         this.font = font;
@@ -28,6 +27,8 @@ public class TextItem implements BaseItem
     {
     }
     
+    // this is not in the original code. While not very efficient,
+    // I think float alignments are much nicer to use.
     public void setAlignment(float sx, float sy, float tx, float ty)
     {
         this.sx = sx;
@@ -48,10 +49,8 @@ public class TextItem implements BaseItem
     }
     
     public void update(float dt) { }
-    
-    
+        
     public float getX() { return x + AppBase.sw * sx + w * tx; }
-    
     public float getY() { return y + AppBase.sh * sy + h * ty; }
     
     public void draw(SpriteBatch sb) 
@@ -61,19 +60,21 @@ public class TextItem implements BaseItem
         final float x0 = getX();
         final float y0 = getY();
         
-        font.setColor( 
+        // TODO: get these divisions out of the game loop
+        font.setColor(
                   (color >>> 24) / 255f,
                   ((color >> 16) & 0xFF) / 255f,
                   ((color >>  8) & 0xFF) / 255f,
                   (color & 0xFF) / 255f);
-        
+
         font.draw(sb, text, x0, y0);
     }    
-    
+
+    // compute item bounds based on the text size
     private void update_bounds()
     {
-        BitmapFont.TextBounds tb = font.getBounds(text);          
+        BitmapFont.TextBounds tb = font.getBounds(text);
         h = tb.height;
-        w = tb.width;		
+        w = tb.width;
     }
 }

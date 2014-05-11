@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import se.tube42.flappybalt.lib.*;
 
 public class Player extends SpriteItem
-{
-    
+{    
     public boolean dead;
 
     public Player(int x, int y, TextureRegion [] tex)
@@ -26,11 +25,9 @@ public class Player extends SpriteItem
             velocity_x = 80;
         }
         velocity_y = 240;
-        
         anim.start();
     }
 
-    
     public void reset()
     {
         super.reset();

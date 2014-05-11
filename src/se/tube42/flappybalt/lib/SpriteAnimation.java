@@ -10,8 +10,8 @@ public class SpriteAnimation
     private int []keys;
     private int frame;
     private boolean loop, stopped;
-    private float t0, tf;	
-    
+    private float t0, tf;
+
     public SpriteAnimation(int [] keys, int fps, boolean loop)
     {
         this.keys = keys;
@@ -20,33 +20,34 @@ public class SpriteAnimation
         this.frame = 0;
         this.tf = 1f / fps;
     }
-    
+
     public boolean isStopped()
     {
         return stopped;
     }
-    
+
     public int getFrame()
     {
         return frame;
     }
+
     public int getIndex()
     {
         return keys[frame];
     }
-    
+
     public void start()
     {
         t0 = 0;
         frame = 0;
         stopped = false;
     }
-    
+
     public void stop()
     {
         stopped = true;
     }
-    
+
     public void update(float dt)
     {
         if(!stopped) {
@@ -55,12 +56,8 @@ public class SpriteAnimation
                 t0 -= tf;
                 int new_frame = frame + 1;
                 if(new_frame >= keys.length) {
-                    if(loop) {
-                        frame = 0;
-                    } else { 
-                        frame = 0;
-                        stopped = true;
-                    }
+                    frame = 0;
+                    if(!loop) stopped = true;
                 } else {
                     frame = new_frame;
                 }

@@ -14,8 +14,8 @@ public class AppBase implements ApplicationListener, InputProcessor
     protected SpriteBatch batch;
     protected OrthographicCamera camera;    
     protected List<BaseItem> items;
-    private Vector3 touch_tmp = new Vector3();
     protected float speed;
+    private Vector3 touch_tmp = new Vector3();
 
     public void add(BaseItem item)
     {
@@ -30,8 +30,7 @@ public class AppBase implements ApplicationListener, InputProcessor
     
     // ----------------------------------------------------
     
-    @Override
-          public void create()
+    @Override public void create()
     {
         this.batch = new SpriteBatch();        
         this.camera = new OrthographicCamera();                        
@@ -43,20 +42,19 @@ public class AppBase implements ApplicationListener, InputProcessor
     }
     
     @Override final public void resize(int sw, int sh) 
-    {      
-    	this.sw = 480 / 3;
-    	this.sh = 720 / 3;
-        onResize(this.sw, this.sh, sw, sh);
+    {
+    	AppBase.sw = 480 / 3;
+    	AppBase.sh = 720 / 3;
+        onResize(AppBase.sw, AppBase.sh, sw, sh);
     }
-    
-    @Override
-          public void render()
+
+    @Override public void render()
     {                
         // camera
         batch.setProjectionMatrix(camera.combined);                
         
         // update
-        float dt = Math.min(0.2f, Gdx.graphics.getDeltaTime()) * speed;        
+        float dt = Math.min(0.2f, Gdx.graphics.getDeltaTime()) * speed;
         onUpdate(dt);
         
         // clean bg
@@ -68,7 +66,7 @@ public class AppBase implements ApplicationListener, InputProcessor
         onDraw(batch);
         batch.end();                   
     }
-    
+
     public void onUpdate(float dt)
     {
     	for(BaseItem s : items) s.update(dt);
@@ -85,60 +83,53 @@ public class AppBase implements ApplicationListener, InputProcessor
         
         mw = (rw / scale - sw) / 2;
         mh = (rh / scale - sh) / 2;        
-        // System.out.println("scale=" + "mw=" + mw + " mh=" + mh);
-
-
 
         Gdx.gl.glViewport( mw * scale, mh * scale, rw - 2 * mw * scale , rh - 2 * mh * scale);           
         camera.setToOrtho(false, sw, sh);
-
-        camera.update();        
+        camera.update();
     }
 
+    // ---------------------------------------
 
-    // --------------------------------------------------
-    
-    @Override
-          public void pause() { }
-    @Override
-          public void resume() { }
-    @Override
-          public void dispose() { }
-    
-    
-    
+    @Override public void pause() { }
+    @Override public void resume() { }
+    @Override public void dispose() { }
+
     // ---------------------------------------
     
     public boolean mouseMoved(int screenX, int screenY) { return false; }    
     public boolean scrolled(int amount) { return false; }
     public boolean keyTyped(char character) { return false; }
-    
-    
-    public boolean keyDown(int keycode) 
+
+    public final boolean keyDown(int keycode) 
     { 
         return type(keycode, true);
     }
-    public boolean keyUp(int keycode) 
+
+    public final boolean keyUp(int keycode) 
     { 
         return type(keycode, false);
     }
     
-    public boolean touchUp(int x, int y, int pointer, int button) 
+    // ---------------------------------------
+    
+    public final boolean touchUp(int x, int y, int pointer, int button) 
     { 
         return touch_(x, y, false, false);        
     }
     
-    public boolean touchDown(int x, int y, int pointer, int button) 
+    public final boolean touchDown(int x, int y, int pointer, int button) 
     { 
         return touch_(x, y, true, false);        
     }
     
-    public boolean touchDragged(int x, int y, int pointer) 
+    public final boolean touchDragged(int x, int y, int pointer) 
     { 
         return touch_(x, y, true, true);
     }
     
-    private boolean touch_(int x, int y, boolean down, boolean drag)
+    // convert touch coordinates from display to world
+    private final boolean touch_(int x, int y, boolean down, boolean drag)
     {
         // correct the Y axis direction
         touch_tmp.set(x, y, 0);
@@ -148,6 +139,9 @@ public class AppBase implements ApplicationListener, InputProcessor
         
         return touch(x, y, down, drag);
     }
+    
+    // ---------------------------------------
+    // override these in your game
     
     public boolean type(int key, boolean down)
     {

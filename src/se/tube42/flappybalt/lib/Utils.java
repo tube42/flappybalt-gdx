@@ -6,7 +6,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 
-
 public class Utils
 {     
     public static Random rnd = new Random();
@@ -26,11 +25,12 @@ public class Utils
     
     public static BitmapFont loadFont(String name)
     {
-        BitmapFont ret = new BitmapFont( Gdx.files.internal(name + ".fnt"),
-            Gdx.files.internal(name + ".png"), false, true);
+        BitmapFont ret = new BitmapFont( 
+                  Gdx.files.internal(name + ".fnt"),
+                  Gdx.files.internal(name + ".png"), 
+                  false, true);
 
         ret.setUseIntegerPositions(true);
         return ret;
     }
-    
 }

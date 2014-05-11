@@ -2,8 +2,7 @@
 <project name="flappybalt" default="help">
   
   <property name="proj" value="flappybalt" />
-  
-  
+
   <path id="cp">  
     <fileset dir="libs">    
       <include name="gdx.jar"/>
@@ -13,20 +12,18 @@
     </fileset>
     <pathelement path="build/"/>
   </path>  
-  
-  
+
   <target name="setup">
     <mkdir dir="libs"/>
     <get skipexisting="true" src="http://libgdx.badlogicgames.com/releases/libgdx-0.9.9.zip" dest="libs/gdx.zip"/>  
     <unzip src="libs/gdx.zip" dest="libs"/>
   </target>
-  
-  
+
   <target name="init">
     <tstamp/>
     <mkdir dir="build"/>
   </target>
-  
+
   <target name="compile" depends="init" >    
     <javac includeantruntime="false" destdir="build">
       <src path="src" />
@@ -34,17 +31,17 @@
       <classpath refid="cp" />
     </javac>
   </target>
-  
+
   <target name="run" depends="compile" >
     <java dir="assets" classname="se.tube42.${proj}.desktop.DesktopMain" fork="yes">
       <classpath refid="cp" /> 
     </java>
   </target>
-  
+
   <target name="clean"  description="clean up" >
     <delete dir="build"/>
   </target>    
-  
+
   <target name="help">
     <echo>
 targets are:

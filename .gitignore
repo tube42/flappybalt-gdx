@@ -1,4 +1,5 @@
 libs
+bin
 build
 *~
 *.svg
